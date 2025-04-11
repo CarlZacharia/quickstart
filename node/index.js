@@ -1,7 +1,8 @@
 'use strict';
 
 // read env vars from .env file
-require('dotenv').config();
+require('dotenv').config({ path: './.env' });
+console.log(process.env);
 const { Configuration, PlaidApi, Products, PlaidEnvironments, CraCheckReportProduct } = require('plaid');
 const util = require('util');
 const { v4: uuidv4 } = require('uuid');
@@ -145,10 +146,10 @@ app.post('/api/create_user_token', function (request, response, next) {
     .then(async function () {
 
       const request = {
-         // Typically this will be a user ID number from your application. 
+        // Typically this will be a user ID number from your application. 
         client_user_id: 'user_' + uuidv4()
       }
-      
+
       if (PLAID_PRODUCTS.some(product => product.startsWith("cra_"))) {
         request.consumer_report_user_identity = {
           first_name: 'Harry',
